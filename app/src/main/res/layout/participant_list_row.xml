@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               android:paddingLeft="@dimen/activity_vertical_margin"
               android:paddingRight="@dimen/activity_vertical_margin"
               android:paddingTop="@dimen/activity_horizontal_margin"
               android:paddingBottom="@dimen/activity_horizontal_margin"
+              android:gravity="center"
               android:layout_width="match_parent"
               android:layout_height="@dimen/list_item_height">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_gravity="center"
         android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"/>
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/participant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:text="@string/name"/>
+
+        <TextView
+            android:id="@+id/participant_list_skills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:text="@string/skills"/>
+
+    </LinearLayout>
 
 </LinearLayout>
