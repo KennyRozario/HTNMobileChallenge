@@ -1,6 +1,7 @@
 package com.example.kennyrozario.htnmobilechallenge;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by Kenny on 2017-02-10.
@@ -14,7 +15,9 @@ public class Profile {
     private String mName;
     private String mPhone;
     private String mPicture;
-    private HashMap <String, Integer> mSkills;
+    private TreeMap<String, Integer> mSkills;
+
+
 
     public String getCompany() {
         return mCompany;
@@ -72,11 +75,11 @@ public class Profile {
         mPicture = picture;
     }
 
-    public HashMap<String, Integer> getSkills() {
+    public TreeMap<String, Integer> getSkills() {
         return mSkills;
     }
 
-    public void setSkills(HashMap<String, Integer> skills) {
+    public void setSkills(TreeMap<String, Integer> skills) {
         mSkills = skills;
     }
 }
