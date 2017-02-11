@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private String mUrl = "https://htn-interviews.firebaseio.com/users.json";
-    private JSONArray mJSONArray = null;
+    private JSONArray mJSONArray;
     private ProfileList mProfiles;
 
     @Override
@@ -43,9 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Response response = client.newCall(request).execute();
                     String responseString = response.body().string();
-
+                    Log.d(TAG, responseString);
                     try {
                         mJSONArray = new JSONArray(responseString);
+                        Log.d(TAG, "JSON Array Created");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -55,19 +56,36 @@ public class MainActivity extends AppCompatActivity {
 
                 return null;
             }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                if (mJSONArray != null) {
+                    jsonToProfileList();
+
+
+                } else {
+                    Log.d(TAG, "null JSON Array");
+                }
+            }
         }.execute();
 
+
+    }
+
+    private void jsonToProfileList() {
         for (int i = 0; i < mJSONArray.length(); i++) {
             Profile profile = new Profile();
-            JSONObject object = null;
-            JSONArray skills = null;
+            JSONObject object;
+            JSONArray skills;
             TreeMap<String, Integer> skillRatings = new TreeMap<>();
             try {
                 object = mJSONArray.getJSONObject(i);
                 skills = object.getJSONArray("skills");
 
                 for (int j = 0; j < skills.length(); j++){
-                    JSONObject skill = null;
+                    JSONObject skill;
                     try {
                         skill = skills.getJSONObject(j);
                         String name = skill.getString("name");
@@ -91,6 +109,5 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     }
 }
