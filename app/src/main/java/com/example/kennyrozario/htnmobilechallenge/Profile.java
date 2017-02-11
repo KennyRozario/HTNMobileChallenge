@@ -18,8 +18,6 @@ public class Profile implements Serializable{
     private String mPicture;
     private TreeMap<String, Integer> mSkills;
 
-
-
     public String getCompany() {
         return mCompany;
     }

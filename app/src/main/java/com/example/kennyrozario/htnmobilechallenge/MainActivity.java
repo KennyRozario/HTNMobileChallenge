@@ -77,15 +77,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (mJSONArray != null) {
                     jsonToProfileList();
+
+                    // Sorting the Profiles in alphabetical order
                     Collections.sort(mProfiles, new Comparator<Profile>() {
                         @Override
                         public int compare(Profile lhs, Profile rhs) {
                             return lhs.getName().compareTo(rhs.getName());
                         }
                     });
+
                     mProfileAdapter = new ProfileAdapter(mProfiles, MainActivity.this);
                     mParticipants.setAdapter(mProfileAdapter);
 
+                    // Passes the Profile onto the next screen to provide a more detailed view
                     mParticipants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

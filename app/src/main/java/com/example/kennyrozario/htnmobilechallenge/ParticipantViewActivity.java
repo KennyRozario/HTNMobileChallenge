@@ -34,6 +34,7 @@ public class ParticipantViewActivity extends FragmentActivity implements Seriali
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_view);
 
+        // Get Profile Object and extract its values to populate the Views on the screen
         Intent intent = getIntent();
         mProfile = (Profile) intent.getSerializableExtra(EXTRA);
 
@@ -73,6 +74,7 @@ public class ParticipantViewActivity extends FragmentActivity implements Seriali
 
         mLat = mProfile.getLat();
         mLong= mProfile.getLong();
+        // Setting up the map fragment at the bottom of the screen
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -81,6 +83,7 @@ public class ParticipantViewActivity extends FragmentActivity implements Seriali
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        // Setting up marker at the participant's location
         LatLng latLng = new LatLng(mLat, mLong);
         googleMap.addMarker(new MarkerOptions().position(latLng));
     }
