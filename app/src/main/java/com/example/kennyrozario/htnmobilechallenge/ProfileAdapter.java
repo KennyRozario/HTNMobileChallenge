@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileAdapter extends ArrayAdapter<Profile> {
 
     ProfileAdapter(ArrayList<Profile> profiles, Context context) {
-        super(context, R.layout.participant_list_row, profiles);
+        super(context, R.layout.participant_list_row, R.id.participant_name, profiles);
     }
 
     @NonNull
@@ -43,8 +43,9 @@ public class ProfileAdapter extends ArrayAdapter<Profile> {
         Iterator<Map.Entry<String, Integer>> iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()){
-            String skill = iterator.next().getKey();
-            int rating = iterator.next().getValue();
+            Map.Entry<String, Integer> entry = iterator.next();
+            String skill = entry.getKey();
+            int rating = entry.getValue();
 
             if (iterator.hasNext()) {
                 s += skill + " (" + rating + ") | ";

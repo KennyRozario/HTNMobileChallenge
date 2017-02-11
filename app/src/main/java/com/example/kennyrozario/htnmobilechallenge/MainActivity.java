@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +12,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.TreeMap;
 
 import okhttp3.OkHttpClient;
@@ -21,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private String mUrl = "https://htn-interviews.firebaseio.com/users.json";
+    private ProfileAdapter mProfileAdapter;
     private JSONArray mJSONArray;
     private ProfileList mProfiles;
+    private ListView mParticipants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mProfiles = ProfileList.getInstance();
+
+        mParticipants = (ListView) findViewById(R.id.participant_list_view);
+
 
         // Http Request
         new AsyncTask<Void, Void, String>(){
@@ -53,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 return null;
             }
 
@@ -63,15 +70,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (mJSONArray != null) {
                     jsonToProfileList();
-
-
+                    Collections.sort(mProfiles, new Comparator<Profile>() {
+                        @Override
+                        public int compare(Profile lhs, Profile rhs) {
+                            return lhs.getName().compareTo(rhs.getName());
+                        }
+                    });
+                    mProfileAdapter = new ProfileAdapter(mProfiles, MainActivity.this);
+                    mParticipants.setAdapter(mProfileAdapter);
                 } else {
                     Log.d(TAG, "null JSON Array");
                 }
             }
         }.execute();
-
-
     }
 
     private void jsonToProfileList() {

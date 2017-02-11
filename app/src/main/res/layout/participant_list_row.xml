@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
+              android:layout_margin="@dimen/activity_vertical_margin"
               android:paddingLeft="@dimen/activity_vertical_margin"
-              android:paddingRight="@dimen/activity_vertical_margin"
-              android:paddingTop="@dimen/activity_horizontal_margin"
-              android:paddingBottom="@dimen/activity_horizontal_margin"
               android:gravity="center"
               android:layout_width="match_parent"
               android:layout_height="@dimen/list_item_height">
@@ -12,6 +10,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_gravity="center"
         android:id="@+id/avatar"
+        android:scaleType="centerCrop"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"/>
 
