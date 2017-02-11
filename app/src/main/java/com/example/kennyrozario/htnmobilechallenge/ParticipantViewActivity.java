@@ -2,10 +2,16 @@ package com.example.kennyrozario.htnmobilechallenge;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -16,11 +22,12 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ParticipantViewActivity extends AppCompatActivity implements Serializable{
+public class ParticipantViewActivity extends FragmentActivity implements Serializable, OnMapReadyCallback {
 
     public static final String EXTRA = "PVA";
     private Profile mProfile;
-    private int mPosition;
+    private double mLat;
+    private double mLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,17 @@ public class ParticipantViewActivity extends AppCompatActivity implements Serial
         TextView skills = (TextView) findViewById(R.id.skills_list);
         skills.setText(s);
 
+        mLat = mProfile.getLat();
+        mLong= mProfile.getLong();
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        LatLng latLng = new LatLng(mLat, mLong);
+        googleMap.addMarker(new MarkerOptions().position(latLng));
     }
 }
