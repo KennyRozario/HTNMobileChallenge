@@ -1,5 +1,6 @@
 package com.example.kennyrozario.htnmobilechallenge;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -7,7 +8,7 @@ import java.util.TreeMap;
  * Created by Kenny on 2017-02-10.
  */
 
-public class Profile {
+public class Profile implements Serializable{
     private String mCompany;
     private String mEmail;
     private double mLat;

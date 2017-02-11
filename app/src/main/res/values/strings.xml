@@ -2,4 +2,11 @@
     <string name="app_name">Hack the North</string>
     <string name="name">FirstName LastName</string>
     <string name="skills">Skill1 Skill2</string>
+    <string name="company">Company Name</string>
+    <string name="phone">Phone</string>
+    <string name="phone_number">+1 (123) 456 - 7890</string>
+    <string name="email">Email</string>
+    <string name="email_account">email@hackthenorth.com</string>
+    <string name="p_view_skills">Skill 1 \nSkill 2</string>
+    <string name="skill_title">Skills</string>
 </resources>

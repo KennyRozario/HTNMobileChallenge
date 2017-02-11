@@ -1,9 +1,12 @@
 package com.example.kennyrozario.htnmobilechallenge;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -11,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mParticipants = (ListView) findViewById(R.id.participant_list_view);
 
 
-        // Http Request
+        // Async Http Request
         new AsyncTask<Void, Void, String>(){
             @Override
             protected String doInBackground(Void... params) {
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         .url(mUrl)
                         .build();
 
+                // Try to get a response when requesting a response for participant info from FireBase
                 try {
                     Response response = client.newCall(request).execute();
                     String responseString = response.body().string();
@@ -64,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
+            // If the JSONArray is not empty, then sort the Profiles alphabetically and display
+            //    them on the screen
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
@@ -78,18 +85,33 @@ public class MainActivity extends AppCompatActivity {
                     });
                     mProfileAdapter = new ProfileAdapter(mProfiles, MainActivity.this);
                     mParticipants.setAdapter(mProfileAdapter);
+
+                    mParticipants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Profile profileToPass = (Profile) parent.getItemAtPosition(position);
+                            Intent intent = new Intent(MainActivity.this, ParticipantViewActivity.class);
+                            intent.putExtra(ParticipantViewActivity.EXTRA, profileToPass);
+                            startActivity(intent);
+                        }
+                    });
                 } else {
-                    Log.d(TAG, "null JSON Array");
+                    Log.d(TAG, "Null JSON Array");
                 }
             }
         }.execute();
     }
 
+    // Go through the non-empty JSONArray and filter out the information to
+    //    populate the ProfileList
     private void jsonToProfileList() {
         for (int i = 0; i < mJSONArray.length(); i++) {
             Profile profile = new Profile();
             JSONObject object;
             JSONArray skills;
+
+            // Iterate through the skills sections as they're their own separate JSONArray
+            //   and populate their own TreeMap (so that skills are sorted alphabetically)
             TreeMap<String, Integer> skillRatings = new TreeMap<>();
             try {
                 object = mJSONArray.getJSONObject(i);
